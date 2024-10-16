@@ -10,6 +10,7 @@ TagManager:
   - vazo
   - kitap1
   - kitap2
+  - keySocket
   layers:
   - Default
   - TransparentFX
