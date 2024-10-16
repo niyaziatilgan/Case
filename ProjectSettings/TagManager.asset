@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - mum1
+  - mum2
+  - mum3
+  - vazo
+  - kitap1
+  - kitap2
   layers:
   - Default
   - TransparentFX
