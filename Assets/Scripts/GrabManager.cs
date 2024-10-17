@@ -11,32 +11,34 @@ public class GrabManager : MonoBehaviour
 
     void Start()
     {
-        paperGrabInteractable = paper.GetComponent<XRGrabInteractable>();
-        paperGrabInteractable.selectEntered.AddListener(OnPaperGrabbed);
-        paperGrabInteractable.selectExited.AddListener(OnPaperReleased); // Paper býrakýldýðýnda çaðrýlacak fonksiyon
-
-        // Baþlangýçta ok aktif, kaðýt aktif ve tutulabilir
         arrow.SetActive(true);
         paper.SetActive(true);
 
-        // Baþlangýçta diðer tüm soketleri inaktif yap
-        socketManager.DeactivateSockets();
+        //socketManager.DeactivateSockets();
+
+
+        paperGrabInteractable = paper.GetComponent<XRGrabInteractable>();
+        paperGrabInteractable.selectEntered.AddListener(OnPaperGrabbed);
+        //paperGrabInteractable.selectExited.AddListener(OnPaperReleased); 
+
+       
     }
 
     private void OnPaperGrabbed(SelectEnterEventArgs args)
     {
-        // Kaðýt tutulduðunda oku inaktif yap ve soketleri aktif hale getir
+        Debug.Log("grabbed");
         arrow.SetActive(false);
         socketManager.ActivateSockets();
     }
 
+    /*
     private void OnPaperReleased(SelectExitEventArgs args)
     {
         // Kaðýt býrakýldýðýnda oku aktif yap ve soketleri inaktif hale getir
         arrow.SetActive(true);
         socketManager.DeactivateSockets();
     }
-
+    */
     public void SetGrabEnabled(GameObject obj, bool isEnabled)
     {
         XRGrabInteractable grabInteractable = obj.GetComponent<XRGrabInteractable>();

@@ -6,14 +6,19 @@ public class SocketInteractionEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        // SocketManager scriptine referans al
         SocketManager socketManager = (SocketManager)target;
 
-        // Varsayýlan Inspector çizim fonksiyonunu kullan
         DrawDefaultInspector();
 
-        // Kullanýcýya süre sýnýrýný girmesi için alan oluþtur
-        socketManager.timeLimit = EditorGUILayout.IntField("Time Limit (seconds)", socketManager.timeLimit);
+        if (GUILayout.Button("Activate Sockets"))
+        {
+            socketManager.ActivateSockets();
+        }
+
+        if (GUILayout.Button("Deactivate Sockets"))
+        {
+            socketManager.DeactivateSockets();
+        }
 
         // Deðiþiklikler yapýldýðýnda scriptin güncellenmesini saðla
         if (GUI.changed)

@@ -6,15 +6,13 @@ using System;
 
 public class SocketManager : MonoBehaviour
 {
-    public List<SocketObject> socketObjects; // Tag eþleþmeleri için socket ve grab objelerinin listesi
+    public List<SocketObject> socketObjects; 
     public GrabManager grabManager;
 
-    public GameObject specialPaper; // Özel kaðýt
-    public GameObject key; // Anahtar
-    public GameObject keySocket; // Anahtar soketi
+    public GameObject specialPaper; 
+    public GameObject key; 
+    public GameObject keySocket; 
 
-    public int timeLimit; // Zaman limiti (saniye)
-    private float countdown; // Geri sayým deðiþkeni
 
     void Start()
     {
@@ -27,45 +25,44 @@ public class SocketManager : MonoBehaviour
             {
                 if (value.interactableObject == socketObject.grabbable as IXRSelectInteractable)
                 {
+                    AudioManager.Instance.PlayCorrectSound();
                     socketObject.correct = true;
-                    if (CheckAllSocketObjects())
-                    {
-                        // Tüm objeler doðru yerleþtirildiðinde fonksiyonu çaðýr
-                        OnAllObjectsCorrectlyPlaced();
-                        DeactivateSockets();
-                    }
+
+                    //Debug.LogWarning(socketObject.grabbable.GetComponent<Rigidbody>().isKinematic);
+                    
+                    socketObject.grabbable.GetComponent<XRGrabInteractable>().enabled = false;
+                    socketObject.grabbable.GetComponent<Rigidbody>().isKinematic = true;
+                    socketObject.socket.gameObject.SetActive(false);
+                    //Debug.LogWarning(socketObject.grabbable.GetComponent<Rigidbody>().isKinematic);
+                    socketObject.grabbable.transform.position = socketObject.objectPosition.position;
+                    //if (CheckAllSocketObjects())
+                    //{
+                    //    // Tüm objeler doðru yerleþtirildiðinde fonksiyonu çaðýr
+                    //    OnAllObjectsCorrectlyPlaced();
+                    //    DeactivateSockets();
+                    //}
+                }
+                else
+                {
+                    AudioManager.Instance.PlayWrongSound();
+                }
+
+                if (CheckAllSocketObjects())
+                {
+                    // Tüm objeler doðru yerleþtirildiðinde fonksiyonu çaðýr
+                    OnAllObjectsCorrectlyPlaced();                    
+                    DeactivateSockets();
                 }
             });
         }
-
-        // Timer'ý baþlat
-        countdown = timeLimit;
-        StartCoroutine(StartTimer());
     }
 
-    private IEnumerator StartTimer()
-    {
-        while (countdown > 0)
-        {
-            yield return new WaitForSeconds(1);
-            countdown--;
-
-            // Eðer süre 6 dakika (360 saniye) dolduysa alarm çal
-            if (countdown == 0)
-            {
-                if (timeLimit == 360) // 6 dk
-                {
-                    StartCoroutine(PlayAlarmSound());
-                }
-            }
-        }
-    }
 
     private IEnumerator PlayAlarmSound()
     {
-        AudioManager.Instance.PlayAlarmSound(); // Alarm sesini çal
-        yield return new WaitForSeconds(5f); // 5 saniye bekle
-        AudioManager.Instance.StopAlarmSound(); // Alarm sesini durdur
+        AudioManager.Instance.PlayAlarmSound(); 
+        yield return new WaitForSeconds(5f); 
+        AudioManager.Instance.StopAlarmSound(); 
     }
 
     public bool CheckAllSocketObjects()
@@ -81,6 +78,7 @@ public class SocketManager : MonoBehaviour
     {
         foreach (SocketObject socketObj in socketObjects)
         {
+            Debug.Log("activated");
             socketObj.socket.gameObject.SetActive(true);
         }
     }
@@ -93,32 +91,12 @@ public class SocketManager : MonoBehaviour
         }
     }
 
-    public void CheckSocketInteraction(GameObject grabbedObject, GameObject socketObject)
-    {
-        foreach (SocketObject socketObj in socketObjects)
-        {
-            if (socketObj.socket == socketObject)
-            {
-                if (socketObj.grabbable.tag == grabbedObject.tag)
-                {
-                    // Doðru yerleþtirme
-                    grabManager.SetGrabEnabled(grabbedObject, false);
-                    AudioManager.Instance.PlayCorrectSound();
-                }
-                else
-                {
-                    // Yanlýþ yerleþtirme
-                    AudioManager.Instance.PlayWrongSound();
-                }
-                break;
-            }
-        }
-    }
-
     // Tüm objeler doðru yerleþtirildiðinde anahtar, özel kaðýt ve anahtar soketini aktif yap
     public void OnAllObjectsCorrectlyPlaced()
     {
+        
         specialPaper.SetActive(true);
+
         key.SetActive(true);
         keySocket.SetActive(true);
     }
@@ -129,5 +107,6 @@ public class SocketObject
 {
     public XRSocketInteractor socket;
     public XRGrabInteractable grabbable;
+    public Transform objectPosition;
     [NonSerialized] public bool correct = false; // Doðru yerleþtirildi mi
 }

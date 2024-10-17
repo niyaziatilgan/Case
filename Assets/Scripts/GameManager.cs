@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class GameManager : MonoBehaviour
 {
@@ -6,6 +7,10 @@ public class GameManager : MonoBehaviour
     public GameObject specialPaper;
     public GameObject key;
     public GameObject keySocket;
+    public Animator animator;
+
+    public XRSocketInteractor socketInteractor;
+    public XRGrabInteractable interactable;
 
     private void Start()
     {
@@ -13,6 +18,14 @@ public class GameManager : MonoBehaviour
         specialPaper.SetActive(false);
         key.SetActive(false);
         keySocket.SetActive(false);
+
+        socketInteractor.selectEntered.AddListener((value) =>
+        {
+            if (value.interactableObject == interactable as IXRSelectInteractable)
+            {
+                OnKeyInserted();
+            }
+        });
     }
 
     public void OnAllObjectsCorrectlyPlaced()
@@ -23,11 +36,17 @@ public class GameManager : MonoBehaviour
         keySocket.SetActive(true);
     }
 
-    public void OnKeyInserted(GameObject grabbedObject, GameObject socketObject)
+    public void OnKeyInserted()
     {
-        if (grabbedObject.tag == "Key" && socketObject.tag == "keySocket")
-        {
-            AudioManager.Instance.PlayCongratSound();
-        }
+        AudioManager.Instance.PlayCongratSound();
+        animator.SetBool("openDoor", true);
+
+        Invoke("QuitGame", 6f);
+    }
+
+    private void QuitGame()
+    {
+        Debug.Log("oyundan cýktý");
+        Application.Quit();
     }
 }
