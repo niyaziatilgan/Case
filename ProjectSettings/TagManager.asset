@@ -11,6 +11,7 @@ TagManager:
   - kitap1
   - kitap2
   - keySocket
+  - Key
   layers:
   - Default
   - TransparentFX
