@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.PlayCongratSound();
         animator.SetBool("openDoor", true);
+        key.SetActive(false);
 
         Invoke("QuitGame", 6f);
     }

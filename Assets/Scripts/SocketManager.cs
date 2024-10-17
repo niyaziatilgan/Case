@@ -35,6 +35,7 @@ public class SocketManager : MonoBehaviour
                     socketObject.socket.gameObject.SetActive(false);
                     //Debug.LogWarning(socketObject.grabbable.GetComponent<Rigidbody>().isKinematic);
                     socketObject.grabbable.transform.position = socketObject.objectPosition.position;
+                    socketObject.grabbable.transform.rotation = socketObject.objectPosition.rotation;
                     //if (CheckAllSocketObjects())
                     //{
                     //    // Tüm objeler doðru yerleþtirildiðinde fonksiyonu çaðýr

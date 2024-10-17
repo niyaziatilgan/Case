@@ -8724,9 +8724,9 @@ MonoBehaviour:
   specialPaper: {fileID: 284944343}
   key: {fileID: 374289202795792232}
   keySocket: {fileID: 1148296831}
-  animator: {fileID: 0}
-  socketInteractor: {fileID: 0}
-  interactable: {fileID: 0}
+  animator: {fileID: 1674674347}
+  socketInteractor: {fileID: 1148296833}
+  interactable: {fileID: 3280061257832287681}
 --- !u!4 &1588620859
 Transform:
   m_ObjectHideFlags: 0
