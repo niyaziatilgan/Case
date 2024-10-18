@@ -10,14 +10,18 @@ public class SocketManager : MonoBehaviour
     public GrabManager grabManager;
 
     public GameObject specialPaper; 
-    public GameObject key; 
-    public GameObject keySocket; 
+    public GameObject key;
+    public GameObject keySocket;
+    public GameObject arrow2;
+
+    private XRGrabInteractable SpeacialPaperGrabInteractable;
 
 
     void Start()
     {
         // Baþlangýçta tüm soketleri inaktif yap
         DeactivateSockets();
+        arrow2.SetActive(false);
 
         foreach (SocketObject socketObject in socketObjects)
         {
@@ -29,7 +33,7 @@ public class SocketManager : MonoBehaviour
                     socketObject.correct = true;
 
                     //Debug.LogWarning(socketObject.grabbable.GetComponent<Rigidbody>().isKinematic);
-                    
+
                     socketObject.grabbable.GetComponent<XRGrabInteractable>().enabled = false;
                     socketObject.grabbable.GetComponent<Rigidbody>().isKinematic = true;
                     socketObject.socket.gameObject.SetActive(false);
@@ -38,7 +42,6 @@ public class SocketManager : MonoBehaviour
                     socketObject.grabbable.transform.rotation = socketObject.objectPosition.rotation;
                     //if (CheckAllSocketObjects())
                     //{
-                    //    // Tüm objeler doðru yerleþtirildiðinde fonksiyonu çaðýr
                     //    OnAllObjectsCorrectlyPlaced();
                     //    DeactivateSockets();
                     //}
@@ -51,13 +54,20 @@ public class SocketManager : MonoBehaviour
                 if (CheckAllSocketObjects())
                 {
                     // Tüm objeler doðru yerleþtirildiðinde fonksiyonu çaðýr
-                    OnAllObjectsCorrectlyPlaced();                    
+                    OnAllObjectsCorrectlyPlaced();
                     DeactivateSockets();
                 }
             });
         }
+        SpeacialPaperGrabInteractable = specialPaper.GetComponent<XRGrabInteractable>();
+        SpeacialPaperGrabInteractable.selectEntered.AddListener(OnSpecialPaperGrabbed);
     }
 
+    private void OnSpecialPaperGrabbed(SelectEnterEventArgs args)
+    {
+        Debug.Log("second arrow is gone");
+        arrow2.SetActive(false);
+    }
 
     private IEnumerator PlayAlarmSound()
     {
@@ -97,9 +107,10 @@ public class SocketManager : MonoBehaviour
     {
         
         specialPaper.SetActive(true);
-
         key.SetActive(true);
         keySocket.SetActive(true);
+        arrow2.SetActive(true);
+
     }
 }
 

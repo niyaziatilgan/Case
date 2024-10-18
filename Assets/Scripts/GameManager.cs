@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         animator.SetBool("openDoor", true);
         key.SetActive(false);
 
-        Invoke("QuitGame", 6f);
+        Invoke("QuitGame", 12f);
     }
 
     private void QuitGame()
