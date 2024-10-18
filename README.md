@@ -1,4 +1,6 @@
 Proje: Case
+
+
 Oyun Hikayesi: Bir zamanlar, karanlık bir krallıkta, efsanevi bir zindana hapsolmuştu. Bu zindan, geçmişteki gizemler ve kaybolmuş sırlarla doluydu. İçeride, dağınık eşyaların arasında kaybolmuş bir anahtar vardı; bu anahtar, kurtuluşun tek umududur. Bu anahtarı bulmak icin elinden geleni yapması gerekmektedir.
 
 
